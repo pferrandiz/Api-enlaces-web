@@ -1,9 +1,6 @@
 # Api-enlaces-web
 
-
-DESCRIPCIÓN :
-
-
+DESCRIPCIÓN
 Implementar una API que permita a los usuarios registrarse y compartir enlaces web que
 consideren interesantes. Otros usuarios podrán votarlos si les gustan.
 

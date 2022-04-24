@@ -1,0 +1,28 @@
+{
+  "name": "api-enlaces-web",
+  "version": "1.0.0",
+  "description": "Api enlaces web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pferrandiz/Api-enlaces-web.git"
+  },
+  "author": "Andres Aristizabal y Pablo Ferrandiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pferrandiz/Api-enlaces-web/issues"
+  },
+  "homepage": "https://github.com/pferrandiz/Api-enlaces-web#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "mysql2": "^2.3.3"
+  }
+}
