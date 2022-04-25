@@ -22,8 +22,10 @@ const {
 const app = express();
 
 app.use(morgan("dev"));
+app.use(express.jason());
 
-//RUTAS
+
+//Rutas de los usuarios
 
 app.post('/user', newUserController);
 app.get('/user/:id', getUserController);

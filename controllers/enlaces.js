@@ -1,10 +1,50 @@
-const getEnlaceController = async (req, res, next) => {};
+const getEnlaceController = async (req, res, next) => {
+  try{
+  res.send({
+    status: 'error',
+    message: 'Not implanted'
 
-const newEnlaceController = async (req, res, next) => {};
+  })
+  }catch(error){
+    next(error);
+  }
+};
 
-const getSingleEnlaceController = async (req, res, next) => {};
+const newEnlaceController = async (req, res, next) => {
+  try{
+  res.send({
+    status: 'error',
+    message: 'Not implanted'
 
-const deleteEnlaceController = async (req, res, next) => {};
+  })
+  }catch(error){
+    next(error);
+  }
+};
+
+const getSingleEnlaceController = async (req, res, next) => {
+  try{
+  res.send({
+    status: 'error',
+    message: 'Not implanted'
+
+  })
+  }catch(error){
+    next(error);
+  }
+};
+
+const deleteEnlaceController = async (req, res, next) => {
+  try{
+  res.send({
+    status: 'error',
+    message: 'Not implanted'
+
+  })
+  }catch(error){
+    next(error);
+  }
+};
 
 module.export = {
   getEnlacesController,
