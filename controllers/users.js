@@ -1,4 +1,6 @@
 const {generatorError} = require('../helpers')
+const {createUser} = require('../db/users')
+
 
 const newUserController = async (req, res, next) => {
 try{ 
@@ -6,6 +8,7 @@ try{
   if(!email || !password){
     throw generatorError('Completar email y password', 400);
   }
+  const id = await createUser(email, password);
   res.send({
     status: 'error',
     message: 'Not implanted'
