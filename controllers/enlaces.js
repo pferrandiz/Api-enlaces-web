@@ -10,14 +10,18 @@ const getEnlaceController = async (req, res, next) => {
 };
 
 const newEnlaceController = async (req, res, next) => {
+   try {
   const { text } = req.body;
   if (!text || text.length > 500) {
     throw generateError("El texto es obligatorio maximo 500 caracteres", 400);
   }
-  try {
+
+  const id = await createEnlaces(req.userId, text)
+
+ 
     res.send({
       status: "ok",
-      message: "Nuevo enlace",
+      message: "Enlace con id: ${id} creado correctamente",
     });
   } catch (error) {
     next(error);

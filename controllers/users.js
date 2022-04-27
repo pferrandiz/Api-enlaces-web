@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generatorError } = require("../helpers");
+const { getConection } = require('./db');
 const { createUser, getUserbyEmail } = require("../db/users");
 
 const newUserController = async (req, res, next) => {
