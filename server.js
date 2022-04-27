@@ -21,6 +21,8 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.jason());
 
+const { authUsers } = require("./middlewares/auth");
+
 //Rutas de los usuarios
 
 app.post("/user", newUserController);
@@ -29,7 +31,7 @@ app.post("/login", loginControler);
 
 //Rutas de los enlaces
 
-app.get("/", getEnlacesController);
+app.get("/", authUsers, getEnlacesController);
 app.post("/", newEnlaceController);
 app.get("/enlace/:id", getSingleEnlaceController);
 app.delete("/enlace/:id", deleteEnlaceController);

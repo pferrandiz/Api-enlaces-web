@@ -4,8 +4,12 @@
   "description": "Api enlaces web",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> origin/feat/-npm-init-paquetes-de-desarollo-y-configuraciones
   },
   "repository": {
     "type": "git",
