@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
-const fileUpload = require('expres-fileupload')
+const fileUpload = require('expres-fileupload');
 
 const {
   newUserController,
@@ -21,6 +21,8 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(express.jason());
+app.use(fileUpload());
+app.use('/upload',express.static('./uploads'));
 
 const { authUsers } = require("./middlewares/auth");
 
