@@ -3,15 +3,17 @@ const { createEnlace } = require('./db/enlaces');
 const path = require('path');
 const sharp = require('sharp');
 const {nanoid} = require('nanoid');
+const { getAllEnlaces, getEnlacesById, deleteEnlacesById } = require("../db/enlaces");
 
 
 
 
 const getEnlaceController = async (req, res, next) => {
   try {
+    const enlaces = await getAllEnlaces();
     res.send({
-      status: "error",
-      message: "Not implanted",
+      status: "ok",
+      message: "enlaces",
     });
   } catch (error) {
     next(error);
@@ -49,9 +51,11 @@ const newEnlaceController = async (req, res, next) => {
 
 const getSingleEnlaceController = async (req, res, next) => {
   try {
+    const {id} = req.params;
+    const enlace = await getEnlacesById(id)
     res.send({
-      status: "error",
-      message: "Not implanted",
+      status: "ok",
+      message: "enlace",
     });
   } catch (error) {
     next(error);
@@ -59,10 +63,27 @@ const getSingleEnlaceController = async (req, res, next) => {
 };
 
 const deleteEnlaceController = async (req, res, next) => {
+
+  const {id} = req.params;
+
+  //Informacion del enlace que quiero borrar
+const enlace = await getEnlacesById(id);
+
+  //Comprobacion dle token
+
+if(req.userId !== tweet.user_id) {
+  throw generatorError('Estas intentando borrar un enlace que no es tuyo', 401);
+}
+
+//Borrar enlace.
+
+await deleteEnlacesById(id);
+
+
   try {
     res.send({
-      status: "error",
-      message: "Not implanted",
+      status: "ok",
+      message: `El enlace con id: ${id} fue borrado`,
     });
   } catch (error) {
     next(error);

@@ -20,7 +20,7 @@ const {
 const app = express();
 
 app.use(morgan("dev"));
-app.use(express.jason());
+app.use(express.json());
 app.use(fileUpload());
 app.use('/upload',express.static('./uploads'));
 
@@ -37,7 +37,7 @@ app.post("/login", loginControler);
 app.get("/", authUsers, getEnlacesController);
 app.post("/", newEnlaceController);
 app.get("/enlace/:id", getSingleEnlaceController);
-app.delete("/enlace/:id", deleteEnlaceController);
+app.delete("/enlace/:id", authUsers, deleteEnlaceController);
 
 //Middleware de 404
 
