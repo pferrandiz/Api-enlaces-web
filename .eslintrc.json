@@ -1,12 +1,8 @@
 {
   "env": {
     "commonjs": true,
-<<<<<<< HEAD
     "es2021": true,
     "node": true
-=======
-    "es2021": true
->>>>>>> origin/feat/-npm-init-paquetes-de-desarollo-y-configuraciones
   },
   "extends": "eslint:recommended",
   "parserOptions": {
