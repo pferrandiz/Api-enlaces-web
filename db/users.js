@@ -1,79 +1,87 @@
-const bcrypt = require('bcrypt');
-const Connection = require("mysql2/typings/mysql/lib/Connection");
+const bcrypt = require("bcrypt");
+const connection = require("mysql2/typings/mysql/lib/Connection");
 const { getConnection } = require("./db");
 
 // DEVUELVE LA INFORMACION PUBLICA DEL USUARIO POR SU EMAIL
 
-const getUserbyEmail = async(email) => {
-  let Connection;
+const getUserbyEmail = async (email) => {
+  let connection;
 
   try {
-    Connection = await getConnection();
+    connection = await getConnection();
 
-    const [result] = await Connection.query('
-    SELECT id, email, create_at FROM email = ?', [id]);
+    const [result] = await connection.query(
+      `SELECT id, email, create_at FROM email = ?`,
+      [id]
+    );
 
-    if (result.length === 0){
-      throw generateError('No hay ningun usuario con ese email', 404);
+    if (result.length === 0) {
+      throw generateError("No hay ningun usuario con ese email", 404);
     }
-return result[0];
-
-  }finally {
-    if (Connection) Connection.release();
+    return result[0];
+  } finally {
+    if (connection) connection.release();
   }
-}
-
+};
 
 // DEVUELVE LA INFORMACION PUBLICA DEL USUARIO POR SU ID
 
-const getUserbyId = async(id) => {
-  let Connection;
+const getUserbyId = async (id) => {
+  let connection;
 
   try {
-    Connection = await getConnection();
+    connection = await getConnection();
 
-    const [result] = await Connection.query('
-    SELECT id, email, create_at FROM users WHERE id=?', [id]);
+    const [result] = await connection.query(
+      `SELECT id, email, create_at FROM users WHERE id = ?`,
+      [id]
+    );
 
-    if (result.length === 0){
-      throw generateError('No hay ningun usuario con esa id', 404);
+    if (result.length === 0) {
+      throw generateError("No hay ningun usuario con esa id", 404);
     }
-return result[0];
-
-  }finally {
-    if (Connection) Connection.release();
+    return result[0];
+  } finally {
+    if (connection) connection.release();
   }
-}
+};
 
 //CREAR USUARIO DE LA BBDD Y QUE DEVUELVE SU ID
 
 const createUser = async (email, password) => {
+  let connection;
   try {
-    Connection = await getConnection();
+    connection = await getConnection();
     // Comprobacion de no repeticion de usuario
-    const [user] = await Connection.createQuery('
-    SELECT id FROM users WHERE email = ?'
-    [email]
+    const [user] = await connection.query(
+      `
+    SELECT id FROM users WHERE email = ?`,
+      [email]
     );
 
     if (user.length > 0) {
       throw generateError(
-        'Ya existe unusuario en la base de datos con ese email',
+        "Ya existe unusuario en la base de datos con ese email",
         409
-      )
+      );
     }
     // Encripar password
-const passwordHash = await bcrypt.hash(password, 8);
+    const passwordHash = await bcrypt.hash(password, 8);
     // Crear usuario
-const [newUser] = await Connection.query('
-INSERT INTO users (email, password) VALUES(?, ?)', [email, passwordHash]);
+    const [newUser] = await connection.query(
+      `INSERT INTO users (email, password) VALUES(?, ?)`,
+      [email, passwordHash]
+    );
+
     // Devolver ID
+
+    return newUser.insertId;
   } finally {
-    if (Connection) Connection.release();
+    if (connection) connection.release();
   }
 };
 module.exports = {
   createUser,
   getUserbyId,
-  getUserbyEmail
+  getUserbyEmail,
 };

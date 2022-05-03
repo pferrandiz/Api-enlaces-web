@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generatorError } = require("../helpers");
-const { getConection } = require('./db');
+const { getConnection } = require("../db/db");
 const { createUser, getUserbyEmail } = require("../db/users");
 
 const newUserController = async (req, res, next) => {
@@ -14,7 +14,7 @@ const newUserController = async (req, res, next) => {
 
     res.send({
       status: "ok",
-      message: "Not User created with id: ${id}",
+      message: `Not User created with id: ${id}`,
     });
   } catch (error) {
     next(error);
@@ -34,7 +34,7 @@ const getUserController = async (req, res, next) => {
   }
 };
 
-const loginControler = async (req, res, next) => {
+const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -77,5 +77,6 @@ const loginControler = async (req, res, next) => {
 module.export = {
   newUserController,
   getUserController,
-  loginControler,
+  loginController,
+  getConnection,
 };

@@ -7,7 +7,7 @@ const fileUpload = require("express-fileupload");
 const {
   newUserController,
   getUserController,
-  loginControler,
+  loginController,
 } = require("./controllers/users");
 
 const {
@@ -30,7 +30,7 @@ const { authUsers } = require("./middlewares/auth");
 
 app.post("/user", newUserController);
 app.get("/user/:id", getUserController);
-app.post("/login", loginControler);
+app.post("/login", loginController);
 
 //Rutas de los enlaces
 

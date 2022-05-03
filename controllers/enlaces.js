@@ -1,14 +1,16 @@
-const { generatorError,  createPathIfNotExists } = require("../helpers");
-const { createEnlace } = require('./db/enlaces');
-const path = require('path');
-const sharp = require('sharp');
-const {nanoid} = require('nanoid');
-const { getAllEnlaces, getEnlacesById, deleteEnlacesById } = require("../db/enlaces");
+const { generatorError, createPathIfNotExists } = require("../helpers");
+const { createEnlace } = require("./db/enlaces");
+const path = require("path");
+const sharp = require("sharp");
+const { nanoid } = require("nanoid");
+const {
+  getAllEnlaces,
+  createEnlace,
+  getEnlacesById,
+  deleteEnlacesById,
+} = require("../db/enlaces");
 
-
-
-
-const getEnlaceController = async (req, res, next) => {
+const getEnlacesController = async (req, res, next) => {
   try {
     const enlaces = await getAllEnlaces();
     res.send({
@@ -21,26 +23,28 @@ const getEnlaceController = async (req, res, next) => {
 };
 
 const newEnlaceController = async (req, res, next) => {
-   try {
-  const { text } = req.body;
-  if (!text || text.length > 500) {
-    throw generateError("El texto es obligatorio maximo 500 caracteres", 400);
-  }
-  // Gestionar Imagenes
-  let imageFileName;
+  try {
+    const { text } = req.body;
+    if (!text || text.length > 500) {
+      throw generatorError(
+        "El texto es obligatorio maximo 500 caracteres",
+        400
+      );
+    }
+    // Gestionar Imagenes
+    let imageFileName;
 
-  if(req.files && req.files.image){
-    const uploadsDir = path.join(__dirname, '../uploads');
-    await createPathIfNotExists(uploadsDir);
-    const image = sharp(req.files.image.data);
-    image.resize(1000);
-    imageFileName = '${nanoid(25)}.jpg';
-    await image.toFile(path.join(uploadsDir, imageFileName));
-  }
-  
-  
-  const id = await createEnlaces(req.userId, text, imageFileName)
- res.send({
+    if (req.files && req.files.image) {
+      const uploadsDir = path.join(__dirname, "../uploads");
+      await createPathIfNotExists(uploadsDir);
+      const image = sharp(req.files.image.data);
+      image.resize(1000);
+      imageFileName = "${nanoid(25)}.jpg";
+      await image.toFile(path.join(uploadsDir, imageFileName));
+    }
+
+    const id = await createEnlace(req.userId, text, imageFileName);
+    res.send({
       status: "ok",
       message: "Enlace con id: ${id} creado correctamente",
     });
@@ -51,8 +55,8 @@ const newEnlaceController = async (req, res, next) => {
 
 const getSingleEnlaceController = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    const enlace = await getEnlacesById(id)
+    const { id } = req.params;
+    const enlace = await getEnlacesById(id);
     res.send({
       status: "ok",
       message: "enlace",
@@ -63,22 +67,23 @@ const getSingleEnlaceController = async (req, res, next) => {
 };
 
 const deleteEnlaceController = async (req, res, next) => {
-
-  const {id} = req.params;
+  const { id } = req.params;
 
   //Informacion del enlace que quiero borrar
-const enlace = await getEnlacesById(id);
+  const enlace = await getEnlacesById(id);
 
-  //Comprobacion dle token
+  //Comprobacion del token
 
-if(req.userId !== tweet.user_id) {
-  throw generatorError('Estas intentando borrar un enlace que no es tuyo', 401);
-}
+  if (req.userId !== enlace.user_id) {
+    throw generatorError(
+      "Estas intentando borrar un enlace que no es tuyo",
+      401
+    );
+  }
 
-//Borrar enlace.
+  //Borrar enlace.
 
-await deleteEnlacesById(id);
-
+  await deleteEnlacesById(id);
 
   try {
     res.send({
