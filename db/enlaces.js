@@ -1,9 +1,9 @@
-const { generatorError, generateError } = require("../helpers");
+const { generateError } = require("../helpers");
 const { getConection, getConnection } = require('./db');
 
 
 
-const deleteEnlacesById = async() => {
+const deleteEnlacesById = async(id) => {
     let connection;
 
     try{
@@ -38,11 +38,11 @@ return result;
     }
 }
 
-const createEnlaces = async (userId, text, image = '') => {
+const createEnlace = async (userId, text, image = '') => {
     let connection;
 
     try{
-        connection = await getConection();
+        connection = await getConnection();
     const [result] = await connection.query(`
     INSERT INTO enlaces (user_id, text, image)
     VALUES(?,?,?)
@@ -55,8 +55,8 @@ const createEnlaces = async (userId, text, image = '') => {
 }
 
 module.exports = {
-    createEnlaces,
+    createEnlace,
     getAllEnlaces,
     getEnlacesById,
     deleteEnlacesById
-}
+};

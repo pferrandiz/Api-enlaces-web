@@ -1,13 +1,13 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const morgan = require("morgan");
-const fileUpload = require("express-fileupload");
+const express = require('express');
+const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 const {
   newUserController,
   getUserController,
-  loginControler,
+  loginController,
 } = require("./controllers/users");
 
 const {
@@ -19,7 +19,7 @@ const {
 
 const app = express();
 
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(fileUpload());
 app.use("/upload", express.static("./uploads"));
@@ -28,30 +28,32 @@ const { authUsers } = require("./middlewares/auth");
 
 //Rutas de los usuarios
 
-app.post("/user", newUserController);
-app.get("/user/:id", getUserController);
-app.post("/login", loginControler);
+app.post('/user', newUserController);
+app.get('/user/:id', getUserController);
+app.post('/login', loginController);
 
 //Rutas de los enlaces
 
-app.get("/", authUsers, getEnlacesController);
-app.post("/", newEnlaceController);
-app.get("/enlace/:id", getSingleEnlaceController);
-app.delete("/enlace/:id", authUsers, deleteEnlaceController);
+app.get('/', authUsers, getEnlacesController);
+app.post('/', getEnlaceController);
+app.get('/enlace/:id', getSingleEnlaceController);
+app.delete('/enlace/:id', authUsers, deleteEnlaceController);
 
 //Middleware de 404
 
 app.use((req, res) => {
   res.status(404).send({
-    status: "error",
-    message: "Not fount",
+    status: 'error',
+    message: 'Not fount',
   });
 });
 
 //Middleware de gestion de errores
 app.use((error, req, res, next) => {
+console.error(error);
+
   res.status(error.httpStatus_ || 500).send({
-    status: "error",
+    status: 'error',
     message: error.message,
   });
 });
