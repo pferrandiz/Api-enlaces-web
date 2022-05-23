@@ -12,7 +12,7 @@ const {
 
 const {
   getEnlacesController,
-  newEnlaceController,
+  newEnlacesController,
   getSingleEnlaceController,
   deleteEnlaceController,
 } = require("./controllers/enlaces");

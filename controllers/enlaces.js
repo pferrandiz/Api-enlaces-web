@@ -25,7 +25,10 @@ const newEnlaceController = async (req, res, next) => {
   try {
     const { text } = req.body;
     if (!text || text.length > 280) {
-      throw generateError("El texto es obligatorio maximo 280 caracteres", 400);
+      throw generatorError(
+        "El texto es obligatorio maximo 280 caracteres",
+        400
+      );
     }
     // Gestionar Imagenes
     let imageFileName;
