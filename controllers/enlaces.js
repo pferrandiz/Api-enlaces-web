@@ -11,7 +11,7 @@ const {
 
 const getEnlacesController = async (req, res, next) => {
   try {
-    const enlaces = await getAllEnlaces();
+    const enlace = await getAllEnlaces();
     res.send({
       status: "ok",
       message: "enlaces",
