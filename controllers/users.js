@@ -1,19 +1,19 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { generatorError } = require('../helpers');
-const { getConection } = require('./db');
-const { createUser, getUserbyEmail } = require('../db/users');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { generatorError } = require("../helpers");
+const { getConection } = require("../db/db");
+const { createUser, getUserbyEmail, getUserbyId } = require("../db/users");
 
 const newUserController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw generatorError('Completar email y password', 400);
+      throw generatorError("Completar email y password", 400);
     }
     const id = await createUser(email, password);
 
     res.send({
-      status: 'ok',
+      status: "ok",
       message: `User created with id: ${id}`,
     });
   } catch (error) {
@@ -24,9 +24,9 @@ const newUserController = async (req, res, next) => {
 const getUserController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await getUserById(id);
+    const user = await getUserbyId(id);
     res.send({
-      status: 'ok',
+      status: "ok",
       data: user,
     });
   } catch (error) {
@@ -34,23 +34,23 @@ const getUserController = async (req, res, next) => {
   }
 };
 
-const loginControler = async (req, res, next) => {
+const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw generatorError('Debes enviar un email y password', 400);
+      throw generatorError("Debes enviar un email y password", 400);
     }
 
     //Recojo los datos de la base de datos del usuario con ese email
 
-    const user = await getUserByEmail(email);
+    const user = await getUserbyEmail(email);
 
     //Compruebo que las contraseña coinciden
 
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      throw generateError('La contraseña no coincide', 401);
+      throw generatorError("La contraseña no coincide", 401);
     }
 
     //Creo el payload del token
@@ -60,13 +60,13 @@ const loginControler = async (req, res, next) => {
     //Firmo el token
 
     const token = jwt.sign(payload, process.env.SECRET, {
-      expiresIn: '30d',
+      expiresIn: "30d",
     });
 
     //Envio el token
 
     res.send({
-      status: 'ok',
+      status: "ok",
       data: token,
     });
   } catch (error) {
@@ -74,8 +74,8 @@ const loginControler = async (req, res, next) => {
   }
 };
 
-module.export = {
+module.exports = {
   newUserController,
   getUserController,
-  loginControler,
+  loginController,
 };
