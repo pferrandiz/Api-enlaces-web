@@ -56,6 +56,6 @@ const createEnlace = async (userId, text, title, url, image = "") => {
 module.exports = {
   createEnlace,
   getAllEnlaces,
-  /* getEnlacesById,*/
+  /*getEnlacesById,*/
   deleteEnlacesById,
 };
