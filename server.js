@@ -36,7 +36,7 @@ app.post("/login", loginController);
 
 app.get("/", authUser, getEnlacesController);
 app.post("/", authUser, newEnlaceController);
-app.get("/enlace/:id", authUser, getSingleEnlaceController);
+/*app.get("/enlace/:id", authUser, getSingleEnlaceController);*/
 app.delete("/enlace/:id", authUser, deleteEnlaceController);
 
 //Middleware de 404
