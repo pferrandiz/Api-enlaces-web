@@ -12,7 +12,7 @@ const {
 
 const {
   getEnlacesController,
-  newEnlacesController,
+  newEnlaceController,
   getSingleEnlaceController,
   deleteEnlaceController,
 } = require("./controllers/enlaces");
@@ -35,8 +35,8 @@ app.post("/login", loginController);
 //Rutas de los enlaces
 
 app.get("/", authUser, getEnlacesController);
-app.post("/", getEnlacesController);
-app.get("/enlace/:id", getSingleEnlaceController);
+app.post("/", authUser, newEnlaceController);
+app.get("/enlace/:id", authUser, getSingleEnlaceController);
 app.delete("/enlace/:id", authUser, deleteEnlaceController);
 
 //Middleware de 404

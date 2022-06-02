@@ -1,20 +1,20 @@
-const { generatorError, createPathIfNotExists } = require("../helpers");
+const { generateError, createPathIfNotExists } = require("../helpers");
 const { createEnlace } = require("../db/enlaces");
 const path = require("path");
 const sharp = require("sharp");
 const { nanoid } = require("nanoid");
 const {
   getAllEnlaces,
-  getEnlacesById,
+  getEnlaceById,
   deleteEnlacesById,
 } = require("../db/enlaces");
 
 const getEnlacesController = async (req, res, next) => {
   try {
-    const enlace = await getAllEnlaces();
+    const enlaces = await getAllEnlaces();
     res.send({
       status: "ok",
-      message: "enlaces",
+      message: enlaces,
     });
   } catch (error) {
     next(error);
@@ -23,12 +23,18 @@ const getEnlacesController = async (req, res, next) => {
 
 const newEnlaceController = async (req, res, next) => {
   try {
-    const { text } = req.body;
+    const { text, title, url } = req.body;
     if (!text || text.length > 280) {
-      throw generatorError(
-        "El texto es obligatorio maximo 280 caracteres",
+      throw generateError("El texto es obligatorio maximo 280 caracteres", 400);
+    }
+    if (!title || title.length > 100) {
+      throw generateError(
+        "El titulo es obligatorio maximo 100 caracteres",
         400
       );
+    }
+    if (!url || url.length > 150) {
+      throw generateError("La url es obligatorio maximo 150 caracteres", 400);
     }
     // Gestionar Imagenes
     let imageFileName;
@@ -42,7 +48,7 @@ const newEnlaceController = async (req, res, next) => {
       await image.toFile(path.join(uploadsDir, imageFileName));
     }
 
-    const id = await createEnlace(req.userId, text, imageFileName);
+    const id = await createEnlace(req.userId, text, title, url, imageFileName);
     res.send({
       status: "ok",
       message: `Enlace con id: ${id} creado correctamente`,
@@ -75,7 +81,7 @@ const deleteEnlaceController = async (req, res, next) => {
     //Comprobacion dle token
 
     if (req.userId !== enlace.user_id) {
-      throw generatorError(
+      throw generateError(
         "Estas intentando borrar un enlace que no es tuyo",
         401
       );

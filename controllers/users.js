@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { generatorError } = require("../helpers");
+const { generateError } = require("../helpers");
 const { getConnection } = require("../db/db");
 const { createUser, getUserbyEmail, getUserbyId } = require("../db/users");
 
@@ -8,7 +8,7 @@ const newUserController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw generatorError("Completar email y password", 400);
+      throw generateError("Completar email y password", 400);
     }
     const id = await createUser(email, password);
 
@@ -38,7 +38,7 @@ const loginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw generatorError("Debes enviar un email y password", 400);
+      throw generateError("Debes enviar un email y password", 400);
     }
 
     //Recojo los datos de la base de datos del usuario con ese email
@@ -50,7 +50,7 @@ const loginController = async (req, res, next) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      throw generatorError("La contraseña no coincide", 401);
+      throw generateError("La contraseña no coincide", 401);
     }
 
     //Creo el payload del token

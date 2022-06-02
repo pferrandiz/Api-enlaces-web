@@ -1,4 +1,4 @@
-const { generatorError } = require("../helpers");
+const { generateError } = require("../helpers");
 const { getConnection } = require("./db");
 
 const deleteEnlacesById = async (id) => {
@@ -16,7 +16,7 @@ DELETE FROM enlaces WHERE id=?
 
     return;
   } finally {
-    if (connection) connection.relase();
+    if (connection) connection.release();
   }
 };
 
@@ -31,23 +31,23 @@ SELECT * FROM enlaces ORDER BY created_at DESC
 `);
     return result;
   } finally {
-    if (connection) connection.relase();
+    if (connection) connection.release();
   }
 };
 
-const createEnlace = async (userId, text, image = "") => {
+const createEnlace = async (userId, text, title, url, image = "") => {
   let connection;
-
+  console.log(userId, text, title, url, image);
   try {
     connection = await getConnection();
     const [result] = await connection.query(
       `
-    INSERT INTO enlaces (user_id, text, image)
-    VALUES(?,?,?)
+    INSERT INTO enlaces (user_id, text, title, url, image)
+    VALUES(?,?,?,?,?)
     `,
-      [userId, text, image]
+      [userId, text, title, url, image]
     );
-    return result.inserId;
+    return result.insertId;
   } finally {
     if (connection) connection.release();
   }

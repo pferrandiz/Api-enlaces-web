@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken");
-const {generateError} = require('../helpers');
-
+const { generateError } = require("../helpers");
 
 const authUser = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    
+    console.log(authorization);
     if (!authorization) {
       throw generateError("Falta Authorizacion", 401);
     }
@@ -21,8 +20,8 @@ const authUser = (req, res, next) => {
     req.userId = token.id;
 
     next();
-  } catch (errror) {
-    next();
+  } catch (error) {
+    next(error);
   }
 };
 
