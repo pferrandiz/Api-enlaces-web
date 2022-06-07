@@ -9,7 +9,7 @@ const getEnlaceById = async (id) => {
 
     const [result] = await connection.query(
       `
-      SELECT * FROM tweets WHERE id = ?
+      SELECT * FROM enlace WHERE id = ?
     `,
       [id]
     );
