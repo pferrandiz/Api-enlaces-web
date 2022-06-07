@@ -5,11 +5,11 @@ const { createUser, getUserbyEmail, getUserbyId } = require("../db/users");
 
 const newUserController = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      throw generateError("Completar email y password", 400);
+    const { name, surname, email, password } = req.body;
+    if (!email || !password || !name || !surname) {
+      throw generateError("Completar todos los campos", 400);
     }
-    const id = await createUser(email, password);
+    const id = await createUser(email, password, name, surname);
 
     res.send({
       status: "ok",

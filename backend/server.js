@@ -16,6 +16,8 @@ const {
   newEnlaceController,
   getSingleEnlaceController,
   deleteEnlaceController,
+  votarEnlaceController,
+  borrarVotoController,
 } = require("./controllers/enlaces");
 
 const app = express();
@@ -40,6 +42,8 @@ app.get("/", authUser, getEnlacesController);
 app.post("/", authUser, newEnlaceController);
 app.get("/enlace/:id", authUser, getSingleEnlaceController);
 app.delete("/enlace/:id", authUser, deleteEnlaceController);
+app.post("/votos/:enlaceId", authUser, votarEnlaceController);
+app.delete("/votos/:enlaceId", authUser, borrarVotoController);
 
 //Middleware de 404
 

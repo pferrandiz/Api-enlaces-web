@@ -7,6 +7,8 @@ const {
   getAllEnlaces,
   getEnlaceById,
   deleteEnlaceById,
+  votarEnlace,
+  borrarVotoEnlace,
 } = require("../db/enlaces");
 
 const getEnlacesController = async (req, res, next) => {
@@ -96,10 +98,39 @@ const deleteEnlaceController = async (req, res, next) => {
     next(error);
   }
 };
+const votarEnlaceController = async (req, res, next) => {
+  try {
+    const { enlaceId } = req.params;
+
+    await votarEnlace(req.userId, enlaceId);
+    res.send({
+      status: "ok",
+      message: `Enlace con id: ${enlaceId} votado correctamente`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const borrarVotoController = async (req, res, next) => {
+  try {
+    const { enlaceId } = req.params;
+
+    await borrarVotoEnlace(req.userId, enlaceId);
+    res.send({
+      status: "ok",
+      message: `Voto a enlace con id: ${enlaceId} borrado correctamente`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getEnlacesController,
   newEnlaceController,
   getSingleEnlaceController,
   deleteEnlaceController,
+  votarEnlaceController,
+  borrarVotoController,
 };

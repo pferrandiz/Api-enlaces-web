@@ -48,8 +48,9 @@ const getUserbyId = async (id) => {
 
 //CREAR USUARIO DE LA BBDD Y QUE DEVUELVE SU ID
 
-const createUser = async (email, password) => {
+const createUser = async (email, password, name, surname) => {
   let connection;
+  console.log(email, password, name, surname);
   try {
     connection = await getConnection();
     // Comprobacion de no repeticion de usuario
@@ -68,8 +69,8 @@ const createUser = async (email, password) => {
     const passwordHash = await bcrypt.hash(password, 8);
     // Crear usuario
     const [newUser] = await connection.query(
-      `INSERT INTO users (email, password) VALUES(?, ?)`,
-      [email, passwordHash]
+      `INSERT INTO users (email, password, name, surname) VALUES(?, ?, ?, ?)`,
+      [email, passwordHash, name, surname]
     );
     // Devolver ID
     console.log(newUser);
