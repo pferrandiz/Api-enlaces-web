@@ -6,16 +6,13 @@ const { nanoid } = require("nanoid");
 const {
   getAllEnlaces,
   getEnlaceById,
-  deleteEnlacesById,
+  deleteEnlaceById,
 } = require("../db/enlaces");
 
 const getEnlacesController = async (req, res, next) => {
   try {
     const enlaces = await getAllEnlaces();
-    res.send({
-      status: "ok",
-      message: enlaces,
-    });
+    res.send(enlaces);
   } catch (error) {
     next(error);
   }
@@ -61,7 +58,7 @@ const newEnlaceController = async (req, res, next) => {
 const getSingleEnlaceController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const enlace = await getEnlacesById(id);
+    const enlace = await getEnlaceById(id);
     res.send({
       status: "ok",
       message: enlace,
@@ -76,7 +73,7 @@ const deleteEnlaceController = async (req, res, next) => {
     const { id } = req.params;
 
     //Informacion del enlace que quiero borrar
-    const enlace = await getEnlacesById(id);
+    const enlace = await getEnlaceById(id);
 
     //Comprobacion dle token
 
@@ -89,7 +86,7 @@ const deleteEnlaceController = async (req, res, next) => {
 
     //Borrar enlace.
 
-    await deleteEnlacesById(id);
+    await deleteEnlaceById(id);
 
     res.send({
       status: "ok",

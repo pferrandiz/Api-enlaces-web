@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateError } = require("../helpers");
-const { getConnection } = require("../db/db");
 const { createUser, getUserbyEmail, getUserbyId } = require("../db/users");
 
 const newUserController = async (req, res, next) => {
@@ -65,10 +64,7 @@ const loginController = async (req, res, next) => {
 
     //Envio el token
 
-    res.send({
-      status: "ok",
-      data: token,
-    });
+    res.send({ token: token });
   } catch (error) {
     next(error);
   }

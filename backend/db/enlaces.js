@@ -1,7 +1,30 @@
 const { generateError } = require("../helpers");
 const { getConnection } = require("./db");
 
-const deleteEnlacesById = async (id) => {
+const getEnlaceById = async (id) => {
+  let connection;
+
+  try {
+    connection = await getConnection();
+
+    const [result] = await connection.query(
+      `
+      SELECT * FROM tweets WHERE id = ?
+    `,
+      [id]
+    );
+
+    if (result.length === 0) {
+      throw generateError(`El enlace con id: ${id} no existe`, 404);
+    }
+
+    return result[0];
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
+const deleteEnlaceById = async (id) => {
   let connection;
 
   try {
@@ -56,6 +79,6 @@ const createEnlace = async (userId, text, title, url, image = "") => {
 module.exports = {
   createEnlace,
   getAllEnlaces,
-  /*getEnlacesById,*/
-  deleteEnlacesById,
+  getEnlaceById,
+  deleteEnlaceById,
 };
